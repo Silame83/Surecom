@@ -1,0 +1,5 @@
+[nginx_server]
+vm1   ansible_host=10.100.100.11
+
+[app_server]
+vm2   ansible_host=10.100.100.12

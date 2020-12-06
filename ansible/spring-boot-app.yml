@@ -1,0 +1,35 @@
+---
+- name: Build and push image to DockerHub
+  hosts: app_server
+  become: yes
+  tasks:
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: Pull image from DockerHub
+      docker_image:
+        name: kimb88/hello-world-spring-boot
+        source: pull
+
+    - name: Log into DockerHub
+      docker_login:
+        username: silame83
+        password: Orthio99
+        email: silame83@gmail.com
+
+    - name: Tag and push to DockerHub
+      docker_image:
+        name: kimb88/hello-world-spring-boot
+        source: pull
+        repository: silame83/spring-boot-app-hw:v1
+        push: yes
+
+    - name: Deploy app container
+      docker_container:
+        name: ansible-sb-hw-app
+        image: silame83/spring-boot-app-hw:v1
+        exposed_ports:
+          - 8080
+        ports:
+          - "8080:8080"

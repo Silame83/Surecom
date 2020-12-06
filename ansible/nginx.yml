@@ -1,0 +1,37 @@
+---
+- name: Install NGINX
+  hosts: nginx_server
+  become: yes
+  tasks:
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: copy Dockerfile
+      copy:
+        src: ./Dockerfile
+        dest: $HOME/Dockerfile
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: copy Shell script
+      copy:
+        src: ./script.sh
+        dest: $HOME/script.sh
+        owner: root
+        group: root
+        mode: '0744'
+
+    - name: Build docker image
+      docker_image:
+        build:
+          path: $HOME
+        name: lb-nginx:v1
+
+    - name: Deploy LB-NGINX container
+      docker_container:
+        name: lb-nginx
+        image: lb-nginx:v1
+        ports:
+          - "8181:80"
