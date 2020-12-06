@@ -34,4 +34,4 @@
         name: lb-nginx
         image: lb-nginx:v1
         ports:
-          - "8181:80"
+          - "8181:443"
