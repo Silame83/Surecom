@@ -6,9 +6,7 @@
 
 # Install Ansible and configuration
 echo "[TASK 1] Installing Ansible"
-sudo apt-get install -y ansible sshpass
-cat ~/.ssh/id_rsa.pub | sshpass -p vagrant ssh -o 'StrictHostKeyChecking no' vagrant@10.100.100.11 'cat >> .ssh/authorized_keys'
-cat ~/.ssh/id_rsa.pub | sshpass -p vagrant ssh -o 'StrictHostKeyChecking no' vagrant@10.100.100.12 'cat >> .ssh/authorized_keys'
+sudo apt-get install -y ansible
 
 # Run SpringBoot App via Ansible
 echo "[TASK 2] Deploy LB and App"

@@ -36,13 +36,15 @@ http {
         ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
         ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-
         server_name _;
 
         location / {
-                try_files $uri $uri/ =404;
+                proxy_pass "http://0.0.0.0:8080";
+                proxy_set_header Host $host;
+                proxy_redirect          off;
+                proxy_set_header        X-NginX-Proxy true;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
         gzip on;
         access_log /spool/logs/nginx-access.log upstream_time;
